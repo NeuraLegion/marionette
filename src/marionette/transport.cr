@@ -75,7 +75,7 @@ module Marionette
     private def get_string
       3.times do |i|
         s = @socket.gets(':')
-        Log.trace { "(#{@id}) Marionette received message id: #{@last_id}, timeout #{@timeout} after #{i} tries" }
+        Log.trace { "(#{@id}) Marionette received message id: #{@last_id} after #{i} tries" }
         return s
       rescue Error::TimeoutError
         Log.error { "(#{@id}) Marionette can not receive message id: #{@last_id}, timeout #{@timeout} after #{i} tries" }
