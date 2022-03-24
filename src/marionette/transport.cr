@@ -19,7 +19,7 @@ module Marionette
     # provided `timeout`.
     def initialize(addr : String, port : Int32, @timeout : Time::Span = 60.seconds)
       @socket = TCPSocket.new(addr, port, dns_timeout: @timeout, connect_timeout: @timeout)
-      @socket.read_timeout = 60.seconds
+      @socket.read_timeout = @timeout
       @socket.write_timeout = @timeout
       @last_id = 0
       @max_packet_length = 2048
