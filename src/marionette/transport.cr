@@ -89,7 +89,6 @@ module Marionette
     # TODO: Add timeout
     def receive_raw
       s = get_string
-      s = @socket.gets(':')
       unless s
         raise "Unable to read anything from marionette socket"
       end
