@@ -74,12 +74,12 @@ module Marionette
 
     private def get_string
       3.times do |i|
+        Log.trace { "(#{@id}) Start marionette received message id: #{@last_id} after #{i} tries" }
         s = @socket.gets(':')
-        Log.trace { "(#{@id}) Marionette received message id: #{@last_id} after #{i} tries" }
+        Log.trace { "(#{@id}) Finish marionette received message id: #{@last_id} after #{i} tries" }
         return s
       rescue e : Exception
         Log.error { "(#{@id}) Marionette can not receive message id: #{@last_id}, timeout #{@timeout} after #{i} tries #{e.inspect_with_backtrace}" }
-        sleep 1.seconds
       end
       raise "Error reading from the socket after 3 attempts"
     end
@@ -89,7 +89,7 @@ module Marionette
     # TODO: Add timeout
     def receive_raw
       s = get_string
-
+      s = @socket.gets(':')
       unless s
         raise "Unable to read anything from marionette socket"
       end
