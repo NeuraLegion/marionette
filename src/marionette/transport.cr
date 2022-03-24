@@ -79,7 +79,6 @@ module Marionette
         return s
       rescue e : Exception
         Log.error { "(#{@id}) Marionette can not receive message id: #{@last_id}, timeout #{@timeout} after #{i} tries #{e.inspect_with_backtrace}" }
-        sleep 1.seconds
       end
       raise "Error reading from the socket after 10 attempts"
     end
