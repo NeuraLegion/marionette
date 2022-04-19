@@ -73,14 +73,15 @@ module Marionette
     end
 
     private def get_string
-      10.times do |i|
+      attempts = 3
+      attempts.times do |i|
         s = @socket.gets(':')
         Log.trace { "(#{@id}) Marionette received message id: #{@last_id} after #{i} tries" }
         return s
       rescue e : Exception
         Log.error { "(#{@id}) Marionette can not receive message id: #{@last_id}, timeout #{@timeout} after #{i} tries #{e.inspect_with_backtrace}" }
       end
-      raise "Error reading from the socket after 10 attempts"
+      raise "Error reading from the socket after #{attempts} attempts"
     end
 
     # Receives a message from the browser following
