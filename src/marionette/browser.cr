@@ -1,6 +1,30 @@
 require "base64"
 require "json"
 
+class WithTimeout(T)
+  class Timeout < Exception
+  end
+
+  def self.do(timeout_ : Time::Span,
+
+              err_str : String,
+
+              proc : Proc(T))
+    response_channel = Channel(T).new
+
+    spawn do
+      response = proc.call
+
+      response_channel.send(response)
+    end
+
+    select
+    when response = response_channel.receive then return response
+    when timeout(timeout_) then raise Timeout.new(err_str)
+    end
+  end
+end
+
 module Marionette
   class Browser
     CHROME_ELEMENT_KEY = "chromeelement-9fc5-4b51-a3c8-01716eedeb04"
@@ -777,7 +801,8 @@ module Marionette
 
       Log.debug { "(#{@id}) Executing script" }
 
-      response = @transport.request("WebDriver:ExecuteScript", params)
+      response = WithTimeout.do(timeout, "(#{@id}) ExecuteScript timeout : #{script}",
+        ->{ @transport.request("WebDriver:ExecuteScript", params) })
       response["value"]?
     end
 
