@@ -1,5 +1,7 @@
 # Marionette
 
+**THIS REPO HAS BEEN DEPRECATED.**
+
 Marionette is a Crystal shard that replaces the functionality of Selenium (Firefox only for now) by communicating directly with an instance of the browser. It provides a simple, but powserful API which allows everything from navigation to screenshots to executing JavaScript.
 
 - [Marionette](#marionette)
